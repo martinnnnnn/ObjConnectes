@@ -42,13 +42,14 @@ public class Spawner : MonoBehaviour {
         {
             TargetDisappeared = false;
             Spawn();
-            m_SpawnTimer = m_TimeBeforeSpawn;
+            m_SpawnTimer = m_TimeBeforeSpawn + Random.Range(0.0f, m_TimeBeforeSpawn/3) * Random.Range(-1, 1);
         }
     }
 
     private void Spawn()
     {
         int targetIndex = Random.Range(0, m_PossibleTargets.Count);
+        //Vector2 spawnLocation = Random.Range()
         m_CurrentTarget = Instantiate(m_PossibleTargets[targetIndex]).GetComponent<Target>();
     }
 

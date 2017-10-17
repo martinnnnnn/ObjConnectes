@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-		if(Input.GetKey("e") && m_Spawner.IsTargetVisible())
+		if(Input.GetKeyDown(KeyCode.Space) && m_Spawner.IsTargetVisible())
         {
             m_Spawner.ResetSpawn();
             GoToNextLevel();

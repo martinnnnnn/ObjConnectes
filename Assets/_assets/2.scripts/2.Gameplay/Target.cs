@@ -6,12 +6,12 @@ public class Target : MonoBehaviour {
 
     private Renderer m_Renderer;
     private Camera m_Camera;
-    private Collider m_TargetCollider;
+    private Collider2D m_TargetCollider;
 
     void Start () {
         m_Renderer = GetComponent<Renderer>();
         m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        m_TargetCollider = GetComponent<Collider>();
+        m_TargetCollider = GetComponent<Collider2D>();
 
     }
 
@@ -28,7 +28,7 @@ public class Target : MonoBehaviour {
         }
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(m_Camera);
-        if (GeometryUtility.TestPlanesAABB(planes, GetComponent<Collider>().bounds))
+        if (GeometryUtility.TestPlanesAABB(planes, GetComponent<Collider2D>().bounds))
         {
             return true;
         }
@@ -45,9 +45,10 @@ public class Target : MonoBehaviour {
             return false;
         }
 
-        RaycastHit hit;
+        RaycastHit2D hit;
         Vector3 direction = transform.position - transform.forward;
-        if (!Physics.Raycast(transform.position, direction, out hit))
+        hit = Physics2D.Raycast(transform.position, direction);
+        if (!hit)
         {
             return false;
         }

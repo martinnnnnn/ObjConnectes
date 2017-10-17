@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour {
 
+    [SerializeField]
+    private Transform m_SpawnTransform;
     private float m_SpawnTimer;
     private float m_DestroyTimer;
     [SerializeField]
@@ -14,14 +16,14 @@ public class Spawner : MonoBehaviour {
     private List<GameObject> m_PossibleTargets = new List<GameObject>();
     private Target m_CurrentTarget;
     public bool TargetDisappeared;
+    private Camera m_Camera;
 
-    // Use this for initialization
     void Start () {
         m_SpawnTimer = m_TimeBeforeSpawn;
         m_DestroyTimer = m_TimeBeforeDestroy;
+        m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if(m_CurrentTarget == null)
         {
@@ -49,8 +51,12 @@ public class Spawner : MonoBehaviour {
     private void Spawn()
     {
         int targetIndex = Random.Range(0, m_PossibleTargets.Count);
-        //Vector2 spawnLocation = Random.Range()
-        m_CurrentTarget = Instantiate(m_PossibleTargets[targetIndex]).GetComponent<Target>();
+
+        Vector3 ViewportRandomLocation = new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 0);
+        Vector3 spawnLocation = m_Camera.ViewportToWorldPoint(ViewportRandomLocation);
+        m_SpawnTransform.position = spawnLocation;
+
+        m_CurrentTarget = Instantiate(m_PossibleTargets[targetIndex], m_SpawnTransform).GetComponent<Target>();
     }
 
     private void CountdownDestroy()

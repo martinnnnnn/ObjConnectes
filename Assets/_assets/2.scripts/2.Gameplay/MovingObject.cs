@@ -2,24 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingObject : MonoBehaviour {
+public class MovingObject : Target {
 
-    private float m_StartTime;
-    private float m_Time
-    {
-        get
-        {
-            return Time.time - m_StartTime;
-        }
-    }
+    [SerializeField]
+    private System.Action movement;
+    
 
 	// Use this for initialization
 	void Start () {
         m_StartTime = Time.time;
+        movement = SinusoidaleMovement;
+        transform.localScale = new Vector3(0, 0, 7);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Translate(new Vector3(Time.deltaTime*10, Mathf.Sin(transform.position.x/2)/4, 0));
+        movement();
+        ScaleOverLifetime();
     }
+
+    private void SinusoidaleMovement()
+    {
+        transform.Translate(new Vector3(0.2f, Mathf.Sin(transform.position.x / 2) / 4, 0));
+    }
+
+    private void OtherMovement()
+    {
+
+    }
+
+    private void ScaleOverLifetime()
+    {
+        //magic numbers wouhouuu
+        float sizeOverLifetime = Mathf.Clamp((-Mathf.Pow(m_Time - 1, 2) + 1) * 8, 0, 7);
+        Vector3 newScale = new Vector3(sizeOverLifetime, sizeOverLifetime, 7);
+        transform.localScale = newScale;
+    }
+    
 }

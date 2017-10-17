@@ -7,12 +7,19 @@ public class Target : MonoBehaviour {
     private Renderer m_Renderer;
     private Camera m_Camera;
     private Collider2D m_TargetCollider;
+    protected float m_StartTime;
+    protected float m_Time
+    {
+        get
+        {
+            return Time.time - m_StartTime;
+        }
+    }
 
     void Start () {
         m_Renderer = GetComponent<Renderer>();
         m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         m_TargetCollider = GetComponent<Collider2D>();
-
     }
 
     public bool IsVisible()

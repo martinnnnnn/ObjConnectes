@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class hm : MonoBehaviour {
+public class Player : MonoBehaviour {
+
+    public int score;
 
 	// Use this for initialization
 	void Start () {

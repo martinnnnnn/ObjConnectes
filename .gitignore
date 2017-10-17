@@ -32,3 +32,18 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+#================================
+# Wwise
+#================================
+
+*/Wwise
+*.akd
+*.cache
+*.meta
+
+#But not these files
+!.wproj
+!.wwu
+!/Wwise/Originals
+!/Assets/StreamingAssets

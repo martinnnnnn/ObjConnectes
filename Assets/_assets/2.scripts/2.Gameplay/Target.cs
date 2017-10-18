@@ -37,7 +37,7 @@ public class Target : MonoBehaviour {
     {
         if (m_Time > Lifetime)
         {
-            m_LevelManager.NotifyNaturalDeathFromTarget();
+            m_LevelManager.TargetDisappearedBeforeAnyReaction();
             Destroy(gameObject);
         }
     }

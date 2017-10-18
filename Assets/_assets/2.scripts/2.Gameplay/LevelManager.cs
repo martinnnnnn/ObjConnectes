@@ -8,28 +8,45 @@ public class LevelManager : MonoBehaviour {
     [SerializeField]
     private float m_PaceStepPerLevel = 0.1f;
     [SerializeField]
-    private Player m_Player;
+    private Player m_Player1;
+    [SerializeField]
+    private Player m_Player2;
     [SerializeField]
     private Spawner m_Spawner;    
 	
 	void Update () {
         
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(m_Player1.IsReacting())
         {
             if(m_Spawner.IsTargetVisible())
             {
+                m_Player1.score++;
                 m_Spawner.ResetSpawn();
                 GoToNextLevel();
             }
             else
             {
+                m_Player1.score--;
                 GoToPreviousLevel();
             }
         }
-
+        if(m_Player2.IsReacting())
+        {
+            if (m_Spawner.IsTargetVisible())
+            {
+                m_Player2.score++;
+                m_Spawner.ResetSpawn();
+                GoToNextLevel();
+            }
+            else
+            {
+                m_Player2.score--;
+                GoToPreviousLevel();
+            }
+        }
 	}
 
-    public void NotifyNaturalDeathFromTarget()
+    public void TargetDisappearedBeforeAnyReaction()
     {
         GoToPreviousLevel();
     }
@@ -37,13 +54,11 @@ public class LevelManager : MonoBehaviour {
     #region Level Progression
     private void GoToPreviousLevel()
     {
-        m_Player.score--;
         DownPace();
     }
 
     private void GoToNextLevel()
     {
-        m_Player.score++;
         UpPace();
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour {
 
+    private LevelManager m_LevelManager;
     private Renderer m_Renderer;
     private Camera m_Camera;
     private Collider2D m_TargetCollider;
@@ -15,16 +16,33 @@ public class Target : MonoBehaviour {
             return Time.time - m_StartTime;
         }
     }
+    public float Lifetime;
 
-    void Start () {
+    protected void Start () {
+        m_StartTime = Time.time;
         m_Renderer = GetComponent<Renderer>();
         m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         m_TargetCollider = GetComponent<Collider2D>();
+        m_LevelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+    }
+
+    protected void Update()
+    {
+        ControlLifetime();
     }
 
     public bool IsVisible()
     {
         return IsTargetInCameraFrustum() && !IsTargetObstructed();
+    }
+
+    private void ControlLifetime()
+    {
+        if(m_Time > Lifetime)
+        {
+            m_LevelManager.NotifyNaturalDeathFromTarget();
+            Destroy(gameObject);
+        }
     }
 
     private bool IsTargetInCameraFrustum()
@@ -35,14 +53,7 @@ public class Target : MonoBehaviour {
         }
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(m_Camera);
-        if (GeometryUtility.TestPlanesAABB(planes, GetComponent<Collider2D>().bounds))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return GeometryUtility.TestPlanesAABB(planes, GetComponent<Collider2D>().bounds);    
     }
 
     private bool IsTargetObstructed()
@@ -55,6 +66,7 @@ public class Target : MonoBehaviour {
         RaycastHit2D hit;
         Vector3 direction = transform.position - transform.forward;
         hit = Physics2D.Raycast(transform.position, direction);
+
         if (!hit)
         {
             return false;

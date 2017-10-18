@@ -9,14 +9,16 @@ public class MovingObject : Target {
     
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
+        base.Start();
         m_StartTime = Time.time;
         movement = SinusoidaleMovement;
         transform.localScale = new Vector3(0, 0, 7);
     }
 	
 	// Update is called once per frame
-	void Update () {
+	new void Update () {
+        base.Update();
         movement();
         ScaleOverLifetime();
     }
@@ -33,8 +35,7 @@ public class MovingObject : Target {
 
     private void ScaleOverLifetime()
     {
-        //magic numbers wouhouuu
-        float sizeOverLifetime = Mathf.Clamp((-Mathf.Pow(m_Time - 1, 2) + 1) * 8, 0, 7);
+        float sizeOverLifetime = Mathf.Clamp((-Mathf.Pow(m_Time - Lifetime/2, 2) + 1) * 8, 0, 7);
         Vector3 newScale = new Vector3(sizeOverLifetime, sizeOverLifetime, 7);
         transform.localScale = newScale;
     }

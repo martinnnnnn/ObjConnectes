@@ -7,7 +7,6 @@ public class Spawner : MonoBehaviour {
     [SerializeField]
     private Transform m_SpawnTransform;
     private float m_SpawnTimer;
-    private float m_DestroyTimer;
     [SerializeField]
     private float m_TimeBeforeSpawn;
     [SerializeField]
@@ -15,12 +14,10 @@ public class Spawner : MonoBehaviour {
     [SerializeField]
     private List<GameObject> m_PossibleTargets = new List<GameObject>();
     private Target m_CurrentTarget;
-    public bool TargetDisappeared;
     private Camera m_Camera;
 
     void Start () {
         m_SpawnTimer = m_TimeBeforeSpawn;
-        m_DestroyTimer = m_TimeBeforeDestroy;
         m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
 	}
 	
@@ -28,13 +25,7 @@ public class Spawner : MonoBehaviour {
         if(m_CurrentTarget == null)
         {
             CountdownSpawn();
-        }
-        else
-        {
-            Debug.Log(IsTargetVisible());
-            CountdownDestroy();
-        }
-        
+        } 
 	}
 
     private void CountdownSpawn()
@@ -42,9 +33,8 @@ public class Spawner : MonoBehaviour {
         m_SpawnTimer -= Time.deltaTime;
         if (m_SpawnTimer < 0)
         {
-            TargetDisappeared = false;
             Spawn();
-            m_SpawnTimer = m_TimeBeforeSpawn + Random.Range(0.0f, m_TimeBeforeSpawn/3) * Random.Range(-1, 1);
+            m_SpawnTimer = m_TimeBeforeSpawn + Random.Range(0.0f, m_TimeBeforeSpawn/2) * Random.Range(-1, 1);
         }
     }
 
@@ -57,17 +47,8 @@ public class Spawner : MonoBehaviour {
         m_SpawnTransform.position = spawnLocation;
 
         m_CurrentTarget = Instantiate(m_PossibleTargets[targetIndex], m_SpawnTransform).GetComponent<Target>();
-    }
-
-    private void CountdownDestroy()
-    {
-        m_DestroyTimer -= Time.deltaTime;
-        if(m_DestroyTimer < 0)
-        {
-            DestroyTarget();
-            m_DestroyTimer = m_TimeBeforeDestroy;
-            TargetDisappeared = true;
-        }
+        m_CurrentTarget.Lifetime = m_TimeBeforeDestroy;
+        m_CurrentTarget.enabled = true;
     }
 
     private void DestroyTarget()
@@ -79,7 +60,6 @@ public class Spawner : MonoBehaviour {
     {
         DestroyTarget();
         m_SpawnTimer = m_TimeBeforeSpawn;
-        m_DestroyTimer = m_TimeBeforeDestroy;
     }
 
     public bool IsTargetVisible()

@@ -73,11 +73,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1953779942912098}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 007011dc6f7cd5447922b55950a47e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Lifetime: 0
 --- !u!212 &212223433639716332
 SpriteRenderer:
   m_ObjectHideFlags: 1

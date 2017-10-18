@@ -399,7 +399,6 @@ MonoBehaviour:
   m_PossibleTargets:
   - {fileID: 1953779942912098, guid: bb9dd8a38144f6744b3605de33f3957c, type: 2}
   - {fileID: 1859387769657042, guid: be6ec2805a3c8e54db8497ddd73c1dde, type: 2}
-  TargetDisappeared: 0
 --- !u!4 &684567544
 Transform:
   m_ObjectHideFlags: 0

@@ -9,8 +9,7 @@ public class LevelManager : MonoBehaviour {
     [SerializeField]
     private Player m_Player;
     [SerializeField]
-    private Spawner m_Spawner;
-    
+    private Spawner m_Spawner;    
 
 	// Use this for initialization
 	void Start () {
@@ -20,18 +19,25 @@ public class LevelManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-		if(Input.GetKeyDown(KeyCode.Space) && m_Spawner.IsTargetVisible())
+		if(Input.GetKeyDown(KeyCode.Space))
         {
-            m_Spawner.ResetSpawn();
-            GoToNextLevel();
-        }
-        if(m_Spawner.TargetDisappeared)
-        {
-            GoToPreviousLevel();
-            m_Spawner.TargetDisappeared = false;
+            if(m_Spawner.IsTargetVisible())
+            {
+                m_Spawner.ResetSpawn();
+                GoToNextLevel();
+            }
+            else
+            {
+                GoToPreviousLevel();
+            }
         }
 
 	}
+
+    public void NotifyNaturalDeathFromTarget()
+    {
+        GoToPreviousLevel();
+    }
 
     private void GoToPreviousLevel()
     {

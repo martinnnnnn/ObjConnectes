@@ -5,20 +5,21 @@ using UnityEngine;
 public class Spawner : MonoBehaviour {
 
     [SerializeField]
-    private Transform m_SpawnTransform;
-    private float m_SpawnTimer;
+    private Transform   m_SpawnLocation;
     [SerializeField]
-    private float m_TimeBeforeSpawn;
+    private float       m_TimeBeforeSpawn;
+    private float       m_SpawnTimer;
     [SerializeField]
-    private float m_TimeBeforeDestroy;
+    private float       m_TargetsLifetime;
+
     [SerializeField]
     private List<GameObject> m_PossibleTargets = new List<GameObject>();
-    private Target m_CurrentTarget;
-    private Camera m_Camera;
+    private Target           m_CurrentTarget;
+    private Camera           m_Camera;
 
     void Start () {
-        m_SpawnTimer = m_TimeBeforeSpawn;
         m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        m_SpawnTimer = m_TimeBeforeSpawn;
 	}
 	
 	void Update () {
@@ -42,24 +43,24 @@ public class Spawner : MonoBehaviour {
     {
         int targetIndex = Random.Range(0, m_PossibleTargets.Count);
 
-        Vector3 ViewportRandomLocation = new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 0);
-        Vector3 spawnLocation = m_Camera.ViewportToWorldPoint(ViewportRandomLocation);
-        m_SpawnTransform.position = spawnLocation;
+        Vector3 randomViewportPosition = new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 0);
+        Vector3 spawnLocation = m_Camera.ViewportToWorldPoint(randomViewportPosition);
+        m_SpawnLocation.position = spawnLocation;
 
-        m_CurrentTarget = Instantiate(m_PossibleTargets[targetIndex], m_SpawnTransform).GetComponent<Target>();
-        m_CurrentTarget.Lifetime = m_TimeBeforeDestroy;
+        m_CurrentTarget = Instantiate(m_PossibleTargets[targetIndex], m_SpawnLocation).GetComponent<Target>();
+        m_CurrentTarget.Lifetime = m_TargetsLifetime;
         m_CurrentTarget.enabled = true;
-    }
-
-    private void DestroyTarget()
-    {
-        Destroy(m_CurrentTarget.gameObject);
     }
 
     public void ResetSpawn()
     {
         DestroyTarget();
         m_SpawnTimer = m_TimeBeforeSpawn;
+    }
+
+    private void DestroyTarget()
+    {
+        Destroy(m_CurrentTarget.gameObject);
     }
 
     public bool IsTargetVisible()

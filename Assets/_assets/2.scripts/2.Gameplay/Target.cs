@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour {
 
-    private LevelManager m_LevelManager;
-    private Renderer m_Renderer;
-    private Camera m_Camera;
-    private Collider2D m_TargetCollider;
+    public float    Lifetime;
     protected float m_StartTime;
     protected float m_Time
     {
@@ -16,14 +13,18 @@ public class Target : MonoBehaviour {
             return Time.time - m_StartTime;
         }
     }
-    public float Lifetime;
+
+    private LevelManager m_LevelManager;
+    private Renderer     m_Renderer;
+    private Camera       m_Camera;
+    private Collider2D   m_TargetCollider;
 
     protected void Start () {
-        m_StartTime = Time.time;
-        m_Renderer = GetComponent<Renderer>();
         m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        m_TargetCollider = GetComponent<Collider2D>();
         m_LevelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        m_TargetCollider = GetComponent<Collider2D>();
+        m_Renderer = GetComponent<Renderer>();
+        m_StartTime = Time.time;
     }
 
     protected void Update()
@@ -31,20 +32,23 @@ public class Target : MonoBehaviour {
         ControlLifetime();
     }
 
-    public bool IsVisible()
-    {
-        return IsTargetInCameraFrustum() && !IsTargetObstructed();
-    }
-
+    #region Lifetime
     private void ControlLifetime()
     {
-        if(m_Time > Lifetime)
+        if (m_Time > Lifetime)
         {
             m_LevelManager.NotifyNaturalDeathFromTarget();
             Destroy(gameObject);
         }
     }
+    #endregion
 
+    #region Visibility
+    public bool IsVisible()
+    {
+        return IsTargetInCameraFrustum() && !IsTargetObstructed();
+    }
+    
     private bool IsTargetInCameraFrustum()
     {
         if (m_TargetCollider == null)
@@ -73,6 +77,6 @@ public class Target : MonoBehaviour {
         }
         return hit.collider.CompareTag("Obstructer");
     }
-
+    #endregion
 
 }

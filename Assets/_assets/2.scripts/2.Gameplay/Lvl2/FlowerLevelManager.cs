@@ -19,14 +19,26 @@ public class FlowerLevelManager : MonoBehaviour {
     private ParticleSystem m_Player1FailFx;
     [SerializeField]
     private ParticleSystem m_Player2FailFx;
+    [SerializeField]
+    private ParticleSystem m_Player1ok1;
+    [SerializeField]
+    private ParticleSystem m_Player1ok2;
+    [SerializeField]
+    private ParticleSystem m_Player2ok1;
+    [SerializeField]
+    private ParticleSystem m_Player2ok2;
 
     public bool Reset;
     public bool ShouldResetLevel;
+
+    public List<int> m_MatchingPetalsNumbers;
+    public Transform FlowerMatchingTransform;
 
 	// Use this for initialization
 	void Awake () {
         FlowerToMatch.RollPetalLoss();
         RefreshPetalsDownLists();
+        RefreshMatchingPetalsNumbers();
     }
 	
     private void RefreshPetalsDownLists()
@@ -43,6 +55,26 @@ public class FlowerLevelManager : MonoBehaviour {
         }
     }
 
+    public void RefreshMatchingPetalsNumbers()
+    {
+        m_MatchingPetalsNumbers = new List<int>();
+        m_MatchingPetalsNumbers.Add(2);
+        m_MatchingPetalsNumbers.Add(3);
+        m_MatchingPetalsNumbers.Add(4);
+        m_MatchingPetalsNumbers.Add(5);
+        m_MatchingPetalsNumbers.Add(6);
+        m_MatchingPetalsNumbers.Add(7);
+        m_MatchingPetalsNumbers.Shuffle();
+    }
+
+    public int GetMatchingPetalsNumber()
+    {
+        int toReturn = m_MatchingPetalsNumbers[0];
+        m_MatchingPetalsNumbers.RemoveAt(0);
+
+        return toReturn;
+    }
+
 	// Update is called once per frame
 	void Update () {
         ManagePlayersScore();
@@ -52,6 +84,7 @@ public class FlowerLevelManager : MonoBehaviour {
         }
         if(Reset)
         {
+            RefreshMatchingPetalsNumbers();
             FlowerToMatch.GrowPetalsBack();
             FlowerToMatch.RollPetalLoss();
             
@@ -71,6 +104,24 @@ public class FlowerLevelManager : MonoBehaviour {
             if (IsPatternOnScreen)
             {
                 playerReacting.score++;
+                if (playerReacting == Player1)
+                {
+                    m_Player1ok1.transform.position = FlowerMatchingTransform.position;
+                    m_Player1ok1.transform.rotation = FlowerMatchingTransform.rotation;
+                    m_Player1ok2.transform.position = FlowerMatchingTransform.position;
+                    m_Player1ok2.transform.rotation = FlowerMatchingTransform.rotation;
+                    m_Player1ok1.Play();
+                    m_Player1ok2.Play();
+                }
+                else
+                {
+                    m_Player2ok1.transform.position = FlowerMatchingTransform.position;
+                    m_Player2ok1.transform.rotation = FlowerMatchingTransform.rotation;
+                    m_Player2ok2.transform.position = FlowerMatchingTransform.position;
+                    m_Player2ok2.transform.rotation = FlowerMatchingTransform.rotation;
+                    m_Player2ok1.Play();
+                    m_Player2ok2.Play();
+                }
                 Reset = true;
             }
             else

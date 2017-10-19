@@ -19,7 +19,10 @@ public class Petal : MonoBehaviour {
         m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         m_NeutralParent = GameObject.Find("NeutralParent").transform;
         m_ContainerOnFlowerTransform = transform.parent;
-        m_ParentFlower = m_ContainerOnFlowerTransform.parent.GetComponent<Flower>();
+        if(m_ShouldPhysicalize)
+        {
+            m_ParentFlower = m_ContainerOnFlowerTransform.parent.GetComponent<Flower>();
+        }
         m_PetalCollider = GetComponent<Collider2D>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
 	}

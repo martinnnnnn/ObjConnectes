@@ -12,15 +12,14 @@ public class MorfingLevelManager : MonoBehaviour
     private Player m_Player2;
 
     public MorfingObject morfingObj;
-    public Text UIScore;
+    public Text UIScorePlayer1;
+    public Text UIScorePlayer2;
     public Text UIVictory;
     public Text UIDeafeat;
 
     void Start()
     {
-        UIScore.text =
-            "Joueur 1 a " + m_Player1.score + " points\n"
-            + "Joueur 2 a " + m_Player2.score + " points\n";
+        UpdateUIScore();
     }
 
     void Update()
@@ -35,10 +34,10 @@ public class MorfingLevelManager : MonoBehaviour
             else
             {
                 m_Player1.score--;
-                //if (m_Player1.score < 0)
-                //{
-                //    m_Player1.score = 0;
-                //}
+                if (m_Player1.score < 0)
+                {
+                    m_Player1.score = 0;
+                }
             }
         }
         if (m_Player2.IsReacting())
@@ -50,10 +49,10 @@ public class MorfingLevelManager : MonoBehaviour
             else
             {
                 m_Player2.score--;
-                //if (m_Player2.score < 0)
-                //{
-                //    m_Player2.score = 0;
-                //}
+                if (m_Player2.score < 0)
+                {
+                    m_Player2.score = 0;
+                }
             }
         }
 
@@ -62,10 +61,8 @@ public class MorfingLevelManager : MonoBehaviour
 
     void UpdateUIScore()
     {
-        UIScore.text =
-            "Joueur1 : " + m_Player1.score + " points\n"
-            + "Joueur2 : " + m_Player2.score + " points\n";
-            
+        UIScorePlayer1.text = m_Player1.score + " points";
+        UIScorePlayer2.text = m_Player2.score + " points";
     }
 
     void ShowVictory()

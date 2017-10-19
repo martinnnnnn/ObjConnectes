@@ -25,29 +25,38 @@ public class ImitatingFlower : Flower {
             LevelManager.FlowerMatchingTransform = transform;
         }
         RefreshPetalsToDown();
+        m_MinLoseTime = LevelManager.GetMinTime();
+        m_MaxLoseTime = LevelManager.GetMaxTime();
     }
 	
 	// Update is called once per frame
 	new protected void Update () {
         base.Update();
 
-        if(LevelManager.ShouldResetLevel)
+        if(!LevelManager.PauseGame)
         {
-            NumberOfPetalsMatchingPattern = LevelManager.GetMatchingPetalsNumber();
-            if(NumberOfPetalsMatchingPattern == 7)
+            if (LevelManager.ShouldResetLevel)
             {
-                LevelManager.FlowerMatchingTransform = transform;
+                m_MinLoseTime = LevelManager.GetMinTime();
+                m_MaxLoseTime = LevelManager.GetMaxTime();
+
+                NumberOfPetalsMatchingPattern = LevelManager.GetMatchingPetalsNumber();
+                if (NumberOfPetalsMatchingPattern == 7)
+                {
+                    LevelManager.FlowerMatchingTransform = transform;
+                }
+                GrowPetalsBack();
+                RefreshPetalsToDown();
             }
-            GrowPetalsBack();
-            RefreshPetalsToDown();
-        }
 
-        ManagePetalsLoss();
+            ManagePetalsLoss();
 
-        if (CompareWithFlower(LevelManager.FlowerToMatch))
-        {
-            LevelManager.IsPatternOnScreen = true;
+            if (CompareWithFlower(LevelManager.FlowerToMatch))
+            {
+                LevelManager.IsPatternOnScreen = true;
+            }
         }
+        
 
     }
 

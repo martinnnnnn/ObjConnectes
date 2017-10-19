@@ -8,6 +8,7 @@ public class Flower : MonoBehaviour {
     public List<Petal> Petals;
     protected FlowerLevelManager LevelManager;
     private Animator m_Animator;
+    
 
     protected void Start()
     {
@@ -17,7 +18,6 @@ public class Flower : MonoBehaviour {
 
     protected void Update()
     {
-        //if(m_Animator.play)
     }
 
     public void GrowPetalsBack()
@@ -66,6 +66,11 @@ public class Flower : MonoBehaviour {
 
     public void AnimateLosePetal()
     {
-        //m_Animator.Play("LosePetal");
+        m_Animator.Play("LosePetal");
+    }
+
+    public void StopAnimationLosePetal()
+    {
+        m_Animator.Play("NoBounce");
     }
 }

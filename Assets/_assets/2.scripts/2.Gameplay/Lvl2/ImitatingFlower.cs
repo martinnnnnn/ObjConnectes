@@ -11,6 +11,10 @@ public class ImitatingFlower : Flower {
     private FlowerLevelManager m_LevelManager;
     private bool m_CanLeaveOtherPetals;
 
+    [SerializeField]
+    private float m_MinLoseTime = 1.0f;
+    [SerializeField]
+    private float m_MaxLoseTime = 3.0f;
     private float m_LoseTimer;
 
     // Use this for initialization
@@ -45,7 +49,7 @@ public class ImitatingFlower : Flower {
         m_PetalsDownMatchingPattern.Shuffle();
         m_PetalsToDownMatchingPatternCount = NumberOfPetalsMatchingPattern;
 
-        m_LoseTimer = Random.Range(0.5f, 3);
+        m_LoseTimer = Random.Range(m_MinLoseTime, m_MaxLoseTime);
     }
 	
 	// Update is called once per frame
@@ -78,7 +82,7 @@ public class ImitatingFlower : Flower {
                     }
                 }
             }
-            m_LoseTimer = Random.Range(0.5f, 3);
+            m_LoseTimer = Random.Range(m_MinLoseTime, m_MaxLoseTime);
         }
 
         if (CompareWithFlower(m_LevelManager.FlowerToMatch))

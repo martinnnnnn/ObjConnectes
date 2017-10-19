@@ -33,9 +33,36 @@ public class FlowerLevelManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Player1.IsReacting() || Player2.IsReacting())
-        {
-
-        }
+        ManagePlayersScore();
+        
 	}
+
+    private void ManagePlayersScore()
+    {
+        Player playerReacting = PlayerReacting();
+        if (playerReacting)
+        {
+            if (IsPatternOnScreen)
+            {
+                playerReacting.score++;
+            }
+            else
+            {
+                playerReacting.score--;
+            }
+        }
+    }
+
+    private Player PlayerReacting()
+    {
+        if(Player1.IsReacting())
+        {
+            return Player1;
+        }
+        else if(Player2.IsReacting())
+        {
+            return Player2;
+        }
+        return null;
+    }
 }

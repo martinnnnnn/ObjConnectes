@@ -32,6 +32,7 @@ public class FlowerLevelManager : MonoBehaviour {
     public bool ShouldResetLevel;
 
     public List<int> m_MatchingPetalsNumbers;
+    public Transform FlowerMatchingTransform;
 
 	// Use this for initialization
 	void Awake () {
@@ -105,12 +106,21 @@ public class FlowerLevelManager : MonoBehaviour {
                 playerReacting.score++;
                 if (playerReacting == Player1)
                 {
+                    m_Player1ok1.transform.position = FlowerMatchingTransform.position;
+                    m_Player1ok1.transform.rotation = FlowerMatchingTransform.rotation;
+                    m_Player1ok2.transform.position = FlowerMatchingTransform.position;
+                    m_Player1ok2.transform.rotation = FlowerMatchingTransform.rotation;
                     m_Player1ok1.Play();
-                    m_Player1ok1.Play();
+                    m_Player1ok2.Play();
                 }
                 else
                 {
-                    m_Player2FailFx.Play();
+                    m_Player2ok1.transform.position = FlowerMatchingTransform.position;
+                    m_Player2ok1.transform.rotation = FlowerMatchingTransform.rotation;
+                    m_Player2ok2.transform.position = FlowerMatchingTransform.position;
+                    m_Player2ok2.transform.rotation = FlowerMatchingTransform.rotation;
+                    m_Player2ok1.Play();
+                    m_Player2ok2.Play();
                 }
                 Reset = true;
             }

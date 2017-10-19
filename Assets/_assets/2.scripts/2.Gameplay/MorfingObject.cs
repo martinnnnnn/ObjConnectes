@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class MorfingObject : MonoBehaviour
@@ -13,29 +14,39 @@ public class MorfingObject : MonoBehaviour
     private bool isShaped;
     private Animator animator;
 
-    private ReferenceObject reference;
+    public Image IndicationImage;
+    public Sprite[] IndicationSprites;
+
+    //private ReferenceObject reference;
 
     [HideInInspector]
     public bool canClick;
     string[] shapeNames;
     List<int> shapesDone;
     string currentShape;
-
+    string rightShape;
 
 	void Start ()
     {
         shapeNames = new string[]
         {
-            "red",
-            "blue",
-            "green",
-            "yellow"
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
         };
-        currentShape = shapeNames[Random.Range(0, shapeNames.Length)];
         timeLeftBeforeShift = AverageTimeBetweenShapes;
         shapesDone = new List<int>();
         animator = GetComponent<Animator>();
-        reference.ChangeShape(shapeNames[Random.Range(0,shapeNames.Length)]);
+        currentShape = shapeNames[Random.Range(0, shapeNames.Length)];
+        ChangeRightShape();
+        //reference.ChangeShape(shapeNames[Random.Range(0,shapeNames.Length)]);
     }
 
     
@@ -48,15 +59,14 @@ public class MorfingObject : MonoBehaviour
         {
             if (isShaped)
             {
-                animator.SetTrigger("idle");
-
+                animator.Play(currentShape+"rev");
                 timeLeftBeforeShift = AverageTimeBetweenShapes + Random.Range(0.0f, AverageTimeBetweenShapes / 2) * Random.Range(-1, 1);
                 isShaped = false;
             }
             else
             {
                 currentShape = shapeNames[ChooseNextShape()];
-                animator.SetTrigger(currentShape);
+                animator.Play(currentShape);
 
                 timeLeftBeforeShift = ShapeLifeTime;
                 isShaped = true;
@@ -83,24 +93,27 @@ public class MorfingObject : MonoBehaviour
 
     public bool CheckShape()
     {
-        bool check = reference.CurrentShape == currentShape;
+        //bool check = reference.CurrentShape == currentShape;
+        bool check = rightShape == currentShape;
         if (check)
         {
             string newShape = shapeNames[Random.Range(0, shapeNames.Length)];
-            while (reference.CurrentShape == newShape)
+            while (rightShape == newShape)
             {
                 newShape = shapeNames[Random.Range(0, shapeNames.Length)];
             }
-            reference.ChangeShape(newShape);
+            //reference.ChangeShape(newShape);
+            ChangeRightShape();
             shapesDone.Clear();
         }
         return check;
     }
 
-    public void SetReference(ReferenceObject obj)
-    {
-        reference = obj;
-    }
 
+    public void ChangeRightShape()
+    {
+        rightShape = shapeNames[Random.Range(0, shapeNames.Length)];
+        IndicationImage.sprite = IndicationSprites[System.Int32.Parse(rightShape) - 1];
+    }
 
 }

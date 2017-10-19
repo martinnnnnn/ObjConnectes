@@ -22,4 +22,9 @@ public class Player : MonoBehaviour {
     {
         return Input.GetKeyDown(m_ValidationKey);
     }
+
+    public bool IsPushing()
+    {
+        return Input.GetKey(m_ValidationKey);
+    }
 }

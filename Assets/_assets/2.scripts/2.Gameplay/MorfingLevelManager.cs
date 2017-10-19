@@ -20,6 +20,12 @@ public class MorfingLevelManager : MonoBehaviour
     private const float delay = 2f;
     public bool canInput;
 
+    public GameObject Player1Victory1;
+    public GameObject Player1Victory2;
+    public GameObject Player2Victory1;
+    public GameObject Player2Victory2;
+
+
     void Start()
     {
         StartCoroutine(EndGame());
@@ -27,6 +33,7 @@ public class MorfingLevelManager : MonoBehaviour
         canInput = true;
     }
 
+    
     void Update()
     {
 
@@ -36,6 +43,9 @@ public class MorfingLevelManager : MonoBehaviour
             {
                 canInput = false;
                 StartCoroutine(InputDelay());
+                Player1Victory1.SetActive(true);
+                Player1Victory2.SetActive(true);
+                StartCoroutine(ParticulesDelay());
                 m_Player1.score++;
             }
             else
@@ -54,6 +64,9 @@ public class MorfingLevelManager : MonoBehaviour
                 canInput = false;
                 StartCoroutine(InputDelay());
                 m_Player2.score++;
+                Player2Victory1.SetActive(true);
+                Player2Victory2.SetActive(true);
+                StartCoroutine(ParticulesDelay());
             }
             else
             {
@@ -88,6 +101,15 @@ public class MorfingLevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         canInput = true;
+    }
+
+    IEnumerator ParticulesDelay()
+    {
+        yield return new WaitForSeconds(delay);
+        Player1Victory1.SetActive(false);
+        Player1Victory2.SetActive(false);
+        Player2Victory1.SetActive(false);
+        Player2Victory2.SetActive(false);
     }
 
     IEnumerator EndGame()

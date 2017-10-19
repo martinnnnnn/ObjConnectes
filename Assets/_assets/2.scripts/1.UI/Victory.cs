@@ -42,10 +42,15 @@ public class Victory : MonoBehaviour
 
         seq.OnComplete(() =>
         {
-            // charger lvl 2
-
+            StartCoroutine(ChangeLevel());
         });
     }
 
-    
+    IEnumerator ChangeLevel()
+    {
+        yield return new WaitForSeconds(5);
+        // load next lvl
+    }
+
+
 }

@@ -7,15 +7,17 @@ public class Flower : MonoBehaviour {
     [SerializeField]
     public List<Petal> Petals;
     protected FlowerLevelManager LevelManager;
+    private Animator m_Animator;
 
     protected void Start()
     {
         LevelManager = GameObject.Find("LevelManager").GetComponent<FlowerLevelManager>();
+        m_Animator = GetComponent<Animator>();
     }
 
     protected void Update()
     {
-        
+        //if(m_Animator.play)
     }
 
     public void GrowPetalsBack()
@@ -62,4 +64,8 @@ public class Flower : MonoBehaviour {
         return petalsUpCount;
     }
 
+    public void AnimateLosePetal()
+    {
+        //m_Animator.Play("LosePetal");
+    }
 }

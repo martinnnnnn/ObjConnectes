@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Petal
+    uniqueID: 3771011623
+    locked: 0
+  - name: Face
+    uniqueID: 2300942477
+    locked: 0

@@ -78,10 +78,9 @@ public class MorfingObject : MonoBehaviour
     {
         int triggerIndex = Random.Range(0, shapeNames.Length);
 
-        if (shapesDone.Count == shapeNames.Length)
+        if (shapesDone.Count == shapeNames.Length || currentShape == rightShape)
         {
             shapesDone.Clear();
-            Debug.Log(shapesDone.Count);
         }
         while (shapesDone.Contains(triggerIndex))
         {

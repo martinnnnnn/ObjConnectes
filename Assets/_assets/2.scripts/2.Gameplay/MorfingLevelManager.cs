@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MorfingLevelManager : MonoBehaviour
 {
+    public float LevelDuration;
+    public Victory VictoryScreen;
 
     [SerializeField]
     private Player m_Player1;
@@ -14,21 +16,26 @@ public class MorfingLevelManager : MonoBehaviour
     public MorfingObject morfingObj;
     public Text UIScorePlayer1;
     public Text UIScorePlayer2;
-    public Text UIVictory;
-    public Text UIDeafeat;
+
+    private const float delay = 2f;
+    public bool canInput;
 
     void Start()
     {
+        StartCoroutine(EndGame());
         UpdateUIScore();
+        canInput = true;
     }
 
     void Update()
     {
 
-        if (m_Player1.IsReacting())
+        if (m_Player1.IsReacting() && canInput)
         {
             if (morfingObj.CheckShape())
             {
+                canInput = false;
+                StartCoroutine(InputDelay());
                 m_Player1.score++;
             }
             else
@@ -40,10 +47,12 @@ public class MorfingLevelManager : MonoBehaviour
                 }
             }
         }
-        if (m_Player2.IsReacting())
+        if (m_Player2.IsReacting() && canInput)
         {
             if (morfingObj.CheckShape())
             {
+                canInput = false;
+                StartCoroutine(InputDelay());
                 m_Player2.score++;
             }
             else
@@ -75,5 +84,27 @@ public class MorfingLevelManager : MonoBehaviour
 
     }
 
+    IEnumerator InputDelay()
+    {
+        yield return new WaitForSeconds(delay);
+        canInput = true;
+    }
 
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(LevelDuration);
+        canInput = false;
+        if (m_Player1.score > m_Player2.score)
+        {
+            VictoryScreen.DoVictory(1);
+        }
+        else if (m_Player1.score < m_Player2.score)
+        {
+            VictoryScreen.DoVictory(2);
+        }
+        else
+        {
+            VictoryScreen.DoVictory(-1);
+        }
+    }
 }

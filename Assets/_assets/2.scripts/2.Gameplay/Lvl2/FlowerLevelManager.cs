@@ -6,7 +6,7 @@ public class FlowerLevelManager : MonoBehaviour {
 
     public PatternFlower FlowerToMatch;
 
-    //[HideInInspector]
+    [HideInInspector]
     public bool IsPatternOnScreen;
     [HideInInspector]
     public List<int> PetalsDownIndexes;
@@ -15,6 +15,10 @@ public class FlowerLevelManager : MonoBehaviour {
 
     public Player Player1;
     public Player Player2;
+    [SerializeField]
+    private ParticleSystem m_Player1FailFx;
+    [SerializeField]
+    private ParticleSystem m_Player2FailFx;
 
     public bool Reset;
     public bool ShouldResetLevel;
@@ -72,6 +76,14 @@ public class FlowerLevelManager : MonoBehaviour {
             else
             {
                 playerReacting.score--;
+                if(playerReacting == Player1)
+                {
+                    m_Player1FailFx.Play();
+                }
+                else
+                {
+                    m_Player2FailFx.Play();
+                }
             }
         }
     }

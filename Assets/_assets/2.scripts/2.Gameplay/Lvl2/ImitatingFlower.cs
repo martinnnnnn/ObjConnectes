@@ -19,6 +19,7 @@ public class ImitatingFlower : Flower {
     // Use this for initialization
     new protected void Start () {
         base.Start();
+        NumberOfPetalsMatchingPattern = LevelManager.GetMatchingPetalsNumber();
         RefreshPetalsToDown();
     }
 	
@@ -28,6 +29,7 @@ public class ImitatingFlower : Flower {
 
         if(LevelManager.ShouldResetLevel)
         {
+            NumberOfPetalsMatchingPattern = LevelManager.GetMatchingPetalsNumber();
             GrowPetalsBack();
             RefreshPetalsToDown();
         }

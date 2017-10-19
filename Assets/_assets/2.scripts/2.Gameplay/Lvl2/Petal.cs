@@ -10,10 +10,16 @@ public class Petal : MonoBehaviour {
     private Camera m_Camera;
     private Collider2D m_PetalCollider;
     private Rigidbody2D m_Rigidbody;
+    private Transform m_NeutralParent;
+    private Transform m_ContainerOnFlowerTransform;
+    private Flower m_ParentFlower;
 
 	// Use this for initialization
 	void Start () {
         m_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        m_NeutralParent = GameObject.Find("NeutralParent").transform;
+        m_ContainerOnFlowerTransform = transform.parent;
+        m_ParentFlower = m_ContainerOnFlowerTransform.parent.GetComponent<Flower>();
         m_PetalCollider = GetComponent<Collider2D>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
 	}
@@ -26,10 +32,22 @@ public class Petal : MonoBehaviour {
         }
 	}
 
+    private void DeparentPetal()
+    {
+        transform.SetParent(m_NeutralParent);
+    }
+
+    private void ReparentPetal()
+    {
+        transform.SetParent(m_ContainerOnFlowerTransform);
+    }
+
     public void Leave()
     {
         if(m_ShouldPhysicalize)
         {
+            DeparentPetal();
+            m_ParentFlower.AnimateLosePetal();
             if (!m_Rigidbody)
             {
                 m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -55,6 +73,7 @@ public class Petal : MonoBehaviour {
     {
         if(m_ShouldPhysicalize)
         {
+            ReparentPetal();
             NeutralizeRigidbody();
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;

@@ -8,7 +8,6 @@ public class ImitatingFlower : Flower {
     private int m_PetalsToDownMatchingPatternCount;
     private List<Petal> m_PetalsDownMatchingPattern;
     private List<int> m_PetalsDownMatchingPatternIndexes;
-    private FlowerLevelManager m_LevelManager;
     private bool m_CanLeaveOtherPetals;
 
     [SerializeField]
@@ -18,12 +17,37 @@ public class ImitatingFlower : Flower {
     private float m_LoseTimer;
 
     // Use this for initialization
-    void Start () {
-        m_LevelManager = GameObject.Find("LevelManager").GetComponent<FlowerLevelManager>();
+    new protected void Start () {
+        base.Start();
+        RefreshPetalsToDown();
+    }
+	
+	// Update is called once per frame
+	new protected void Update () {
+        base.Update();
+
+        if(LevelManager.ShouldResetLevel)
+        {
+            GrowPetalsBack();
+            RefreshPetalsToDown();
+        }
+
+        ManagePetalsLoss();
+
+        if (CompareWithFlower(LevelManager.FlowerToMatch))
+        {
+            LevelManager.IsPatternOnScreen = true;
+        }
+
+    }
+
+    private void RefreshPetalsToDown()
+    {
+        m_CanLeaveOtherPetals = false;
         m_PetalsDownMatchingPattern = new List<Petal>();
         m_PetalsToDownMatchingPatternCount = NumberOfPetalsMatchingPattern;
         m_PetalsDownMatchingPatternIndexes = new List<int>();
-        foreach (int petalIndex in m_LevelManager.PetalsDownIndexes)
+        foreach (int petalIndex in LevelManager.PetalsDownIndexes)
         {
             m_PetalsDownMatchingPatternIndexes.Add(petalIndex);
         }
@@ -51,9 +75,9 @@ public class ImitatingFlower : Flower {
 
         m_LoseTimer = Random.Range(m_MinLoseTime, m_MaxLoseTime);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void ManagePetalsLoss()
+    {
         m_LoseTimer -= Time.deltaTime;
         if (m_LoseTimer < 0)
         {
@@ -70,11 +94,11 @@ public class ImitatingFlower : Flower {
 
             if (m_CanLeaveOtherPetals)
             {
-                if (m_PetalsUpCount > m_LevelManager.FlowerToMatch.m_PetalsUpCount)
+                if (m_PetalsUpCount > LevelManager.FlowerToMatch.m_PetalsUpCount)
                 {
                     for (int j = 0; j < Petals.Count; j++)
                     {
-                        if (!m_LevelManager.PetalsDownIndexes.Contains(j) && Petals[j].IsUp)
+                        if (!LevelManager.PetalsDownIndexes.Contains(j) && Petals[j].IsUp)
                         {
                             Petals[j].Leave();
                             break;
@@ -84,11 +108,5 @@ public class ImitatingFlower : Flower {
             }
             m_LoseTimer = Random.Range(m_MinLoseTime, m_MaxLoseTime);
         }
-
-        if (CompareWithFlower(m_LevelManager.FlowerToMatch))
-        {
-            m_LevelManager.IsPatternOnScreen = true;
-        }
-
     }
 }

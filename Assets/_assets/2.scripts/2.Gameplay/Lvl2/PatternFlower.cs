@@ -6,10 +6,15 @@ public class PatternFlower : Flower {
 
     [SerializeField]
     private int m_NumberOfPetalsUp = 5;
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+    new protected void Start()
+    {
+        base.Start();
+    }
+
+    new protected void Update () {
+        base.Update();
+        
 	}
 
     public void RollPetalLoss()

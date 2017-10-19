@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FlowerLevelManager : MonoBehaviour {
+    public float LevelDuration;
+    public bool canInput;
+    private const float delay = 2f;
 
     public PatternFlower FlowerToMatch;
 
@@ -36,6 +39,7 @@ public class FlowerLevelManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+        StartCoroutine(EndGame());
         FlowerToMatch.RollPetalLoss();
         RefreshPetalsDownLists();
         RefreshMatchingPetalsNumbers();
@@ -126,7 +130,6 @@ public class FlowerLevelManager : MonoBehaviour {
             }
             else
             {
-                playerReacting.score--;
                 if(playerReacting == Player1)
                 {
                     m_Player1FailFx.Play();
@@ -155,5 +158,29 @@ public class FlowerLevelManager : MonoBehaviour {
     private void ResetLevel()
     {
 
+    }
+
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(LevelDuration);
+        canInput = false;
+        if (Player1.score > Player2.score)
+        {
+            VictoryScreen.DoVictory(1);
+        }
+        else if (Player1.score < Player2.score)
+        {
+            VictoryScreen.DoVictory(2);
+        }
+        else
+        {
+            VictoryScreen.DoVictory(-1);
+        }
+    }
+
+    IEnumerator InputDelay()
+    {
+        yield return new WaitForSeconds(delay);
+        canInput = true;
     }
 }

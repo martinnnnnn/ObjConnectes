@@ -400,6 +400,8 @@ GameObject:
   - component: {fileID: 445899248}
   - component: {fileID: 445899247}
   - component: {fileID: 445899246}
+  - component: {fileID: 445899250}
+  - component: {fileID: 445899249}
   m_Layer: 0
   m_Name: WwiseGlobal
   m_TagString: Untagged
@@ -453,6 +455,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &445899249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 445899245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c87740f8ec04042b417d3f38e41f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &445899250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 445899245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77f57f6f7adbe42998765df7e2d4a3d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerList: f7e1664c
+  useOtherObject: 0
+  valueGuid: 814b6ce8ba6a5041aee2c2f798baf3af
+  bankName: SDB_Objconnecte
+  loadAsynchronous: 0
+  decodeBank: 0
+  saveDecodedBank: 0
+  unloadTriggerList: 958ca0ea
 --- !u!1 &457324112 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1679862637432178, guid: 46cb527107a73374fa1183d84e80a2ad,
@@ -513,6 +545,11 @@ Prefab:
     - target: {fileID: 4842731557420042, guid: 96eaaa489fa934a41bab06cf5bb6ac4c, type: 2}
       propertyPath: m_RootOrder
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114158005656174950, guid: 96eaaa489fa934a41bab06cf5bb6ac4c,
+        type: 2}
+      propertyPath: m_ValidationKey
+      value: 275
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96eaaa489fa934a41bab06cf5bb6ac4c, type: 2}
@@ -1616,6 +1653,7 @@ MonoBehaviour:
   ShouldResetLevel: 0
   m_MatchingPetalsNumbers: 
   FlowerMatchingTransform: {fileID: 0}
+  music: {fileID: 0}
 --- !u!4 &1839866016
 Transform:
   m_ObjectHideFlags: 0
@@ -1701,6 +1739,11 @@ Prefab:
     - target: {fileID: 4848595948599606, guid: e2fda137cd1034143bdf04cf66a38e59, type: 2}
       propertyPath: m_RootOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114630697848888220, guid: e2fda137cd1034143bdf04cf66a38e59,
+        type: 2}
+      propertyPath: m_ValidationKey
+      value: 276
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e2fda137cd1034143bdf04cf66a38e59, type: 2}
